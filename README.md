@@ -18,6 +18,19 @@ npm run dev
 
 Die App verwendet ausschließlich den öffentlichen Supabase Anon-Key im Browser. Profildaten sind durch Row Level Security geschützt. Service-Role-Keys gehören niemals in die Frontend-Umgebung.
 
+## Admin einrichten
+
+1. Einen normalen Account über die Website registrieren und die E-Mail bestätigen.
+2. Im Supabase SQL Editor den Account einmalig zum Admin machen:
+
+```sql
+update public.profiles
+set is_admin = true
+where id = (select id from auth.users where email = 'DEINE-EMAIL');
+```
+
+3. Neu einloggen. Danach erscheint der Admin-Bereich. Admins können alle Places löschen und den Hero-Titel der Website ändern. Supabase RLS erzwingt diese Rechte serverseitig.
+
 ## Prüfung
 
 ```sh
