@@ -3,6 +3,5 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/2gowork/',
   plugins: [react()],
 })

@@ -1,22 +1,19 @@
-create table public.places (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  type text not null default 'Sonstiger Ort',
-  area text not null,
-  wifi text not null default 'Kein WLAN',
-  wifi_password text,
-  outlets text not null default 'Nein',
-  seating boolean not null default false,
-  food boolean not null default false,
-  rating numeric(2,1) not null default 0,
-  created_by uuid not null references auth.users(id) on delete cascade,
+create table public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  display_name text,
   created_at timestamptz not null default now()
 );
 
-alter table public.places enable row level security;
-create policy "Anyone can view places" on public.places for select using (true);
-create policy "Authenticated users can create places" on public.places for insert to authenticated with check (auth.uid() = created_by);
-create policy "Owners can update their places" on public.places for update to authenticated using (auth.uid() = created_by) with check (auth.uid() = created_by);
-create policy "Owners can delete their places" on public.places for delete to authenticated using (auth.uid() = created_by);
+alter table public.profiles enable row level security;
+create policy "Users can view their profile" on public.profiles for select to authenticated using (auth.uid() = id);
+create policy "Users can create their profile" on public.profiles for insert to authenticated with check (auth.uid() = id);
+create policy "Users can update their profile" on public.profiles for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
 
--- Optional: enable email confirmation in Supabase Auth settings for production.
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public
+as $$ begin
+  insert into public.profiles (id, display_name) values (new.id, new.raw_user_meta_data ->> 'display_name');
+  return new;
+end; $$;
+
+create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.handle_new_user();

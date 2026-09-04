@@ -1,30 +1,22 @@
-# 2gowork
+# free2be
 
-2gowork hilft Menschen, Orte zum Arbeiten mit kostenlosem WLAN, Steckdosen und Aufenthaltsmöglichkeiten zu finden.
+Eine einfache, moderne Authentifizierungsbasis mit React, Vite, TypeScript und Supabase.
 
-## Aktueller Prototyp
-
-- Öffentliche Suche nach Stadt, Stadtteil oder Ort
-- Filter für Steckdosen, WLAN, Sitzplätze und Bistro
-- Umschaltung zwischen Karten- und Listenansicht
-- Beispiel-Orte rund um Berlin
-- Formular zum Melden eines Ortes für registrierte Nutzer
-
-## Supabase einrichten
-
-1. Lege ein Supabase-Projekt an.
-2. Führe [supabase/schema.sql](supabase/schema.sql) im SQL Editor aus.
-3. Kopiere `.env.example` nach `.env` und trage Projekt-URL sowie Anon-Key ein.
-4. Starte die Anwendung mit `npm run dev`.
-
-Die App lädt Orte öffentlich aus Supabase. Registrierung, Login und Abmeldung laufen über Supabase Auth. Das Melden neuer Orte ist durch die Session und Row Level Security auf registrierte Nutzer begrenzt.
-
-## Entwicklung
+## Start
 
 ```sh
 npm install
 npm run dev
 ```
+
+## Supabase einrichten
+
+1. Supabase-Projekt anlegen.
+2. `supabase/schema.sql` im SQL Editor ausführen.
+3. `.env.example` nach `.env` kopieren und URL sowie Anon-Key eintragen.
+4. In Supabase Auth die E-Mail-Bestätigung nach Bedarf aktivieren.
+
+Die App verwendet ausschließlich den öffentlichen Supabase Anon-Key im Browser. Profildaten sind durch Row Level Security geschützt. Service-Role-Keys gehören niemals in die Frontend-Umgebung.
 
 ## Prüfung
 
@@ -32,5 +24,3 @@ npm run dev
 npm run build
 npm run lint
 ```
-
-Die App ist mit React, Vite und TypeScript aufgebaut.
