@@ -31,6 +31,8 @@ where id = (select id from auth.users where email = 'DEINE-EMAIL');
 
 3. Neu einloggen. Danach erscheint der Admin-Bereich. Admins können alle Places löschen und den Hero-Titel der Website ändern. Supabase RLS erzwingt diese Rechte serverseitig.
 
+Für den gewünschten Account liegt die einmalige Abfrage zusätzlich in `supabase/promote-martens-admin.sql`.
+
 ## Prüfung
 
 ```sh
